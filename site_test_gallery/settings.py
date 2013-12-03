@@ -1,4 +1,6 @@
 # Django settings for site_test_gallery project.
+from django.conf.global_settings import LOGIN_REDIRECT_URL
+from django.core.urlresolvers import reverse
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -113,6 +115,8 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'test_gallery',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -123,6 +127,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+
     'django_extensions',
     'sorl.thumbnail',
 )
@@ -155,3 +160,5 @@ LOGGING = {
         },
     }
 }
+
+LOGIN_REDIRECT_URL = reverse('MyGalleryList')
