@@ -1,0 +1,11 @@
+{% extends 'test_gallery/base.html' %}
+
+{% block title %}Галерея{% endblock %}
+{% block content %}
+	<div>
+		{% for object in object_list %}
+			<a href="{% url 'Photo' object.pk %}">object.title</a>
+		{% endfor %}
+	</div>
+	{% block extra %}{% endblock %}
+{% endblock %}

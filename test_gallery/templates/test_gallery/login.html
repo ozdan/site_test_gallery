@@ -1,0 +1,10 @@
+{% extends 'test_gallery/base.html' %}
+
+{% block title %}Вход{% endblock %}
+{% block body %}
+	<form method="POST" action="{% url 'LogIn'%}">
+		{% csrf_token %}
+		{{ form }}
+		<button type="submit">Войти</button>
+	</form>
+{% endblock %}
