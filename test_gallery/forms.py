@@ -15,8 +15,7 @@ class GalleryForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super(GalleryForm, self).save(commit=False)
-        if not instance.pk:
-            instance.user = self.request.user
+        instance.user = self.request.user
         instance.save(commit)
         return instance
 
@@ -25,6 +24,19 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ('title', 'description', 'file',)
+
+    def __init__(self, gallery_pk, *args, **kwargs):
+        super(PhotoForm, self).__init__(*args, **kwargs)
+        self.gallery_pk = gallery_pk
+
+    def save(self, commit=True):
+        instance = super(PhotoForm, self).save(commit=False)
+        if instance.pk:
+            instance.save()
+        else:
+            instance.gallery_id = self.gallery_pk
+            instance.save()
+        return instance
 
 
 class CommentForm(forms.ModelForm):

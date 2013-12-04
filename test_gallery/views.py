@@ -75,6 +75,13 @@ class CreateUpdateFormMixin(object):
     def get_success_url(self):
         return reverse_lazy('Gallery', kwargs={'pk': self.kwargs['gallery_pk']})
     
+    def get_form_kwargs(self):
+        kwargs = super(CreateUpdateFormMixin, self).get_form_kwargs()
+        kwargs.update({
+            'gallery_pk': self.kwargs['gallery_pk']
+        })
+        return kwargs
+
 
 class CreatePhotoView(CreateUpdateFormMixin, CreateView):
     template_name = 'test_gallery/create_photo.html'
