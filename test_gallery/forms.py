@@ -9,6 +9,17 @@ class GalleryForm(forms.ModelForm):
         model = Gallery
         fields = ('title',)
 
+    def __init__(self, request, *args, **kwargs):
+        super(GalleryForm, self).__init__(*args, **kwargs)
+        self.request = request
+
+    def save(self, commit=True):
+        instance = super(GalleryForm, self).save(commit=False)
+        if not instance.pk:
+            instance.user = self.request.user
+        instance.save(commit)
+        return instance
+
 
 class PhotoForm(forms.ModelForm):
     class Meta:

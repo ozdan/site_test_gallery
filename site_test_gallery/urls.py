@@ -13,6 +13,7 @@ urlpatterns = patterns('test_gallery.views',
     url(r'^gallery/(?P<pk>\d+)/$', 'gallery', name='Gallery'),
     url(r'^create_photo/(?P<gallery_pk>\d+)/$', 'create_photo', name='CreatePhoto'),
     url(r'^update_photo/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'update_photo', name='UpdatePhoto'),
+    url(r'^delete_photo/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'delete_photo', name='DeletePhoto'),
 )
 # 
 # 

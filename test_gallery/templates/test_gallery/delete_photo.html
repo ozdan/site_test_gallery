@@ -1,0 +1,11 @@
+{% extends 'test_gallery/base.html' %}
+
+{% block title %}Удаление фото{% endblock %}
+{% block content %}
+	<form method="post">
+		{% csrf_token %}
+		{{form.as_p}}
+		<a href="{% url 'Gallery' gallery_pk %}">Отменить</a>
+		<input type="submit" value="Удалить фото"/>
+	</form>
+{% endblock %}

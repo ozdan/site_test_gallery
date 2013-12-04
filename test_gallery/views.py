@@ -25,6 +25,11 @@ class GalleryListView(ListView):
     model = Gallery
     template_name = 'test_gallery/gallery_list.html'
 
+    def get_queryset(self):
+        qs = super(GalleryListView, self).get_queryset()
+#         import ipdb; ipdb.set_trace()
+        return qs.filter(user=self.request.user)
+
 gallery_list = GalleryListView.as_view()
 
 
@@ -39,6 +44,13 @@ class CreateGalleryView(CreateView):
     form_class = GalleryForm
     template_name = 'test_gallery/create_gallery.html'
     success_url = reverse_lazy('MyGalleryList')
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateGalleryView, self).get_form_kwargs()
+        kwargs.update({
+            'request': self.request,
+        })
+        return kwargs
 
 create_gallery = login_required(CreateGalleryView.as_view())
 
@@ -59,8 +71,8 @@ gallery = PhotoListView.as_view()
 class CreateUpdateFormMixin(object):
     form_class = PhotoForm
     model = Photo
+    
     def get_success_url(self):
-#         import ipdb; ipdb.set_trace()
         return reverse_lazy('Gallery', kwargs={'pk': self.kwargs['gallery_pk']})
     
 
@@ -79,6 +91,14 @@ update_photo = login_required(UpdatePhotoView.as_view())
 class DeletePhotoView(DeleteView):
     model = Photo
     template_name = 'test_gallery/delete_photo.html'
+
+    def get_success_url(self):
+            return reverse_lazy('Gallery', kwargs={'pk': self.kwargs['gallery_pk']})
+
+    def get_context_data(self, **kwargs):
+        context = super(DeletePhotoView, self).get_context_data(**kwargs)
+        context['gallery_pk'] = self.kwargs['pk']
+        return context
 
 delete_photo = login_required(DeletePhotoView.as_view())
 
