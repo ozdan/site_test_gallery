@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth import logout
 from django.contrib.auth.views import login
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -28,26 +28,49 @@ class GalleryListView(ListView):
 gallery_list = GalleryListView.as_view()
 
 
+class MyGalleryListView(GalleryListView):
+    template_name = 'test_gallery/my_gallery_list.html'
+
+my_gallery_list = login_required(MyGalleryListView.as_view())
+
+
 class CreateGalleryView(CreateView):
     model = Gallery
     form_class = GalleryForm
     template_name = 'test_gallery/create_gallery.html'
+    success_url = reverse_lazy('MyGalleryList')
 
 create_gallery = login_required(CreateGalleryView.as_view())
+
+
+class PhotoListView(ListView):
+    model = Photo
+    template_name = 'test_gallery/gallery.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PhotoListView, self).get_context_data(**kwargs)
+        context['gallery_pk'] = self.kwargs['pk']
+        return context
+
+
+gallery = PhotoListView.as_view()
 
 
 class CreateUpdateFormMixin(object):
     form_class = PhotoForm
     model = Photo
+    def get_success_url(self):
+#         import ipdb; ipdb.set_trace()
+        return reverse_lazy('Gallery', kwargs={'pk': self.kwargs['gallery_pk']})
+    
 
-
-class CreatePhotoView(CreateView, CreateUpdateFormMixin):
+class CreatePhotoView(CreateUpdateFormMixin, CreateView):
     template_name = 'test_gallery/create_photo.html'
 
 create_photo = login_required(CreatePhotoView.as_view())
 
 
-class UpdatePhotoView(UpdateView, CreateUpdateFormMixin):
+class UpdatePhotoView(CreateUpdateFormMixin, UpdateView):
     template_name = 'test_gallery/update_photo.html'
 
 update_photo = login_required(UpdatePhotoView.as_view())

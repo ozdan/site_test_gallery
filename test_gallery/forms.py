@@ -7,6 +7,7 @@ from .models import Photo, Gallery, Comment
 class GalleryForm(forms.ModelForm):
     class Meta:
         model = Gallery
+        fields = ('title',)
 
 
 class PhotoForm(forms.ModelForm):

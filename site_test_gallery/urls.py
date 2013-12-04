@@ -8,7 +8,11 @@ urlpatterns = patterns('test_gallery.views',
     url(r'^$', 'gallery_list', name='GalleryList'),
     url(r'^logout/$', 'log_out', name='LogOut'),
     url(r'^login/$', 'log_in', name='LogIn'),
-    url(r'^my_gallery_list/$', 'gallery_list', name='MyGalleryList'),
+    url(r'^my_gallery_list/$', 'my_gallery_list', name='MyGalleryList'),
+    url(r'^create_gallery/$', 'create_gallery', name='CreateGallery'),
+    url(r'^gallery/(?P<pk>\d+)/$', 'gallery', name='Gallery'),
+    url(r'^create_photo/(?P<gallery_pk>\d+)/$', 'create_photo', name='CreatePhoto'),
+    url(r'^update_photo/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'update_photo', name='UpdatePhoto'),
 )
 # 
 # 
