@@ -1,8 +1,12 @@
 from django.conf.urls import patterns, url
+from django.conf.urls.static import static
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
+MEDIA_URL = '/media/'
 
 urlpatterns = patterns('test_gallery.views',
     url(r'^$', 'gallery_list', name='GalleryList'),
@@ -17,14 +21,6 @@ urlpatterns = patterns('test_gallery.views',
     url(r'^delete_photo/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'delete_photo', name='DeletePhoto'),
     url(r'^comments/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'create_comment', name='CreateComment'),
 )
-# 
-# 
-# urlpatterns += patterns('',
-#     url(r'^login/$', login,
-#         {
-#             'template_name': 'test_gallery/login.html',
-#             'redirect_field_name': reverse('GalleryList')
-#         },
-#         name='LogIn'
-#     ),
-# )
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, show_indexes=True)

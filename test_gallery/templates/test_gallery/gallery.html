@@ -7,11 +7,10 @@
 		<ul>
 		{% for object in object_list %}
 			<li>
+				<a href="{{ object.file.url }}">
 					{% thumbnail object.file "100x100" as im %}
 					    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 					{% endthumbnail %}
-				<a href="{{ object.file.url }}">
-					{{object.title}}
 				</a>
 				<a href="{% url 'DeletePhoto' gallery_pk object.pk %}">Комментарии</a>
 			</li>
