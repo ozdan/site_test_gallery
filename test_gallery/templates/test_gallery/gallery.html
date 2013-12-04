@@ -6,13 +6,21 @@
 	<div>
 		<ul>
 		{% for object in object_list %}
-			<li>
+			<li style="width: 300px;">
 				<a href="{{ object.file.url }}">
-					{% thumbnail object.file "100x100" as im %}
-					    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-					{% endthumbnail %}
+					<p>{{object.title}}</p>
+					<p>
+						{% thumbnail object.file "100x100" as im %}
+						    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+						{% endthumbnail %}
+					</p>
 				</a>
-				<a href="{% url 'CreateComment' gallery_pk object.pk %}">Комментарии</a>
+				<p>{{object.description}}</p>
+				{% if user.is_authenticated %}
+					<a href="{% url 'CreateComment' gallery_pk object.pk %}">Комментарии</a>
+				{% else %}
+					<a href="{% url 'CommentList' gallery_pk object.pk %}">Комментарии</a>
+				{% endif %}
 			</li>
 		{% endfor %}
 		</ul>

@@ -20,6 +20,7 @@ urlpatterns = patterns('test_gallery.views',
     url(r'^update_photo/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'update_photo', name='UpdatePhoto'),
     url(r'^delete_photo/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'delete_photo', name='DeletePhoto'),
     url(r'^comments/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'create_comment', name='CreateComment'),
+    url(r'^comment_list/(?P<gallery_pk>\d+)/(?P<pk>\d+)/$', 'comment_list', name='CommentList'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

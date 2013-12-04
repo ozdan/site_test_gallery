@@ -120,8 +120,16 @@ class DeletePhotoView(DeleteView):
 delete_photo = login_required(DeletePhotoView.as_view())
 
 
-class CreateCommentView(CreateView):
+class CommentListMixin(object):
     model = Comment
+
+    def get_context_data(self, **kwargs):
+        context = super(CommentListMixin, self).get_context_data(**kwargs)
+        context['comment_list'] = Comment.objects.filter(photo_id=self.kwargs['pk'])
+        return context
+
+
+class CreateCommentView(CommentListMixin, CreateView):
     form_class = CommentForm
     template_name = 'test_gallery/create_comment.html'
 
@@ -142,9 +150,10 @@ class CreateCommentView(CreateView):
                 }
             )
 
-    def get_context_data(self, **kwargs):
-        context = super(CreateCommentView, self).get_context_data(**kwargs)
-        context['comment_list'] = Comment.objects.filter(photo_id=self.kwargs['pk'])
-        return context
-
 create_comment = login_required(CreateCommentView.as_view())
+
+
+class CommentList(CommentListMixin, ListView):
+    template_name = 'test_gallery/comment_list.html'
+
+comment_list = CommentList.as_view()

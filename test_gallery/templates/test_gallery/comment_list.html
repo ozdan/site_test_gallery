@@ -3,9 +3,4 @@
 {% block title %}Комментарии{% endblock %}
 {% block content %}
 	{% include 'test_gallery/comments.html' %}
-	<form method="post">
-		{% csrf_token %}
-		{{form.as_p}}
-		<input type="submit" value="Добавить комментарий"/>
-	</form>
 {% endblock %}
