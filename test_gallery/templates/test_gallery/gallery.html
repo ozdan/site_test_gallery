@@ -12,7 +12,7 @@
 					    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 					{% endthumbnail %}
 				</a>
-				<a href="{% url 'DeletePhoto' gallery_pk object.pk %}">Комментарии</a>
+				<a href="{% url 'CreateComment' gallery_pk object.pk %}">Комментарии</a>
 			</li>
 		{% endfor %}
 		</ul>

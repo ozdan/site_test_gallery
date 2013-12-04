@@ -110,7 +110,7 @@ class DeletePhotoView(DeleteView):
     template_name = 'test_gallery/delete_photo.html'
 
     def get_success_url(self):
-            return reverse_lazy('MyGallery', kwargs={'pk': self.kwargs['gallery_pk']})
+        return reverse_lazy('MyGallery', kwargs={'pk': self.kwargs['gallery_pk']})
 
     def get_context_data(self, **kwargs):
         context = super(DeletePhotoView, self).get_context_data(**kwargs)
@@ -124,5 +124,27 @@ class CreateCommentView(CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'test_gallery/create_comment.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateCommentView, self).get_form_kwargs()
+        kwargs.update({
+            'request': self.request,
+            'photo_pk': self.kwargs['pk']
+        })
+        return kwargs
+
+    def get_success_url(self):
+            return reverse_lazy(
+                'CreateComment',
+                kwargs={
+                    'gallery_pk': self.kwargs['gallery_pk'],
+                    'pk': self.kwargs['pk']
+                }
+            )
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateCommentView, self).get_context_data(**kwargs)
+        context['comment_list'] = Comment.objects.filter(photo_id=self.kwargs['pk'])
+        return context
 
 create_comment = login_required(CreateCommentView.as_view())

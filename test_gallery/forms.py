@@ -43,3 +43,15 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('text',)
+
+    def __init__(self, request, photo_pk, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        self.request = request
+        self.photo_pk = photo_pk
+
+    def save(self, commit=True):
+        instance = super(CommentForm, self).save(commit=False)
+        instance.user = self.request.user
+        instance.photo_id = self.photo_pk
+        instance.save()
+        return instance

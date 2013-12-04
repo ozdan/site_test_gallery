@@ -1,0 +1,22 @@
+{% extends 'test_gallery/base.html' %}
+
+{% block title %}Комментарии{% endblock %}
+{% block content %}
+	<ul>
+		{% if comment_list.count == 0 %}
+			<p>Пока никто не оставлял комментариев</p>
+		{% else %}
+			{% for comment in comment_list %}
+				<li>
+					<p><b>{{comment.user}}</b> писал:</p>
+					<p>{{comment.text}}</p>
+				</li>
+			{% endfor %}
+		{% endif %}
+	</ul>
+	<form method="post">
+		{% csrf_token %}
+		{{form.as_p}}
+		<input type="submit" value="Добавить комментарий"/>
+	</form>
+{% endblock %}
