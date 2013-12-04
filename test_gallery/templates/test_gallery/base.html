@@ -6,6 +6,7 @@
 	</head>
 	<body>
 		{% block body %}
+			<a href="{% url 'GalleryList' %}">Список галерей</a>
 			{% if user.is_authenticated %}
 				<a href="{% url 'MyGalleryList' %}">Мои галереи</a>
 				<a href="{% url 'LogOut' %}">Выход</a>

@@ -3,9 +3,11 @@
 {% block title %}Список галерей{% endblock %}
 {% block content %}
 	<div>
+		<ul>
 		{% for object in object_list %}
-			<a href="{% url 'Gallery' object.pk %}">{{object.title}}</a>
+			<li><a href="{% url 'Gallery' object.pk %}">{{object.title}}</a></li>
 		{% endfor %}
+		</ul>
 	</div>
 	{% block extra %}{% endblock %}
 {% endblock %}

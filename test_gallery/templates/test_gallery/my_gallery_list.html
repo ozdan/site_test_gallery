@@ -5,7 +5,7 @@
 	<div>
 		<ul>
 		{% for object in object_list %}
-			<li><a href="{% url 'Gallery' object.pk %}">{{object.title}}</a></li>
+			<li><a href="{% url 'MyGallery' object.pk %}">{{object.title}}</a></li>
 		{% endfor %}
 		</ul>
 	</div>

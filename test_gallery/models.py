@@ -20,7 +20,7 @@ class Gallery(models.Model):
 class Photo(models.Model):
     title = models.CharField(_('Title'), max_length=255)
     description = models.TextField(_('Description'), default='', blank=True)
-    file = models.FileField(_('Image'), upload_to='upload/photo/%Y/%m/')
+    file = models.ImageField(_('Image'), upload_to='upload/photo/%Y/%m/')
     gallery = models.ForeignKey(Gallery, null=True, on_delete=models.SET_NULL)
 
     def __unicode__(self):

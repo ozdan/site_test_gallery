@@ -1,0 +1,16 @@
+{% extends 'test_gallery/base.html' %}
+
+{% block title %}Галерея{% endblock %}
+{% block content %}
+	<div>
+		<ul>
+		{% for object in object_list %}
+			<li>
+				<a href="{% url 'UpdatePhoto' gallery_pk object.pk %}">{{object.title}}</a>
+				<a href="{% url 'DeletePhoto' gallery_pk object.pk %}">Удалить</a>
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+	<a href="{% url 'CreatePhoto' gallery_pk %}">Добавить фото</a>
+{% endblock %}

@@ -25,16 +25,16 @@ class GalleryListView(ListView):
     model = Gallery
     template_name = 'test_gallery/gallery_list.html'
 
-    def get_queryset(self):
-        qs = super(GalleryListView, self).get_queryset()
-#         import ipdb; ipdb.set_trace()
-        return qs.filter(user=self.request.user)
-
 gallery_list = GalleryListView.as_view()
 
 
-class MyGalleryListView(GalleryListView):
+class MyGalleryListView(ListView):
+    model = Gallery
     template_name = 'test_gallery/my_gallery_list.html'
+
+    def get_queryset(self):
+        qs = super(MyGalleryListView, self).get_queryset()
+        return qs.filter(user_id=self.request.user.pk)
 
 my_gallery_list = login_required(MyGalleryListView.as_view())
 
@@ -64,8 +64,18 @@ class PhotoListView(ListView):
         context['gallery_pk'] = self.kwargs['pk']
         return context
 
+    def get_queryset(self):
+        qs = super(PhotoListView, self).get_queryset()
+        return qs.filter(gallery=self.kwargs['pk'])
 
 gallery = PhotoListView.as_view()
+
+
+class MyPhotoListView(PhotoListView):
+    model = Photo
+    template_name = 'test_gallery/my_gallery.html'
+
+my_gallery = login_required(MyPhotoListView.as_view())
 
 
 class CreateUpdateFormMixin(object):
@@ -73,7 +83,7 @@ class CreateUpdateFormMixin(object):
     model = Photo
     
     def get_success_url(self):
-        return reverse_lazy('Gallery', kwargs={'pk': self.kwargs['gallery_pk']})
+        return reverse_lazy('MyGallery', kwargs={'pk': self.kwargs['gallery_pk']})
     
     def get_form_kwargs(self):
         kwargs = super(CreateUpdateFormMixin, self).get_form_kwargs()
@@ -100,7 +110,7 @@ class DeletePhotoView(DeleteView):
     template_name = 'test_gallery/delete_photo.html'
 
     def get_success_url(self):
-            return reverse_lazy('Gallery', kwargs={'pk': self.kwargs['gallery_pk']})
+            return reverse_lazy('MyGallery', kwargs={'pk': self.kwargs['gallery_pk']})
 
     def get_context_data(self, **kwargs):
         context = super(DeletePhotoView, self).get_context_data(**kwargs)
